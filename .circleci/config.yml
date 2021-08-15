@@ -17,8 +17,18 @@ jobs:
           command: mvn -B -DskipTests clean package
       - store_artifacts:
           path: target/spring-boot-demo.jar
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - run:
+          name: deploy by ssh
+          command: |
+            ssh dylan@121.40.89.90 "java -jar target/spring-boot-demo.jar"
+
 
 workflows:
   sample:
     jobs:
       - build-and-test
+      - deploy
